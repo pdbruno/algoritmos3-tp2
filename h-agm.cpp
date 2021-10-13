@@ -1,4 +1,4 @@
 using namespace std;
 
-int H_AGM() {
+void H_AGM() {
 }

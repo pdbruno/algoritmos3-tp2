@@ -1,4 +1,4 @@
 using namespace std;
 
-int BL() {
+void BL() {
 }
