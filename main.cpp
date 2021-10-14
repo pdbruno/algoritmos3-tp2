@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 	if (algoritmo == "H-CG")
 		H_CG(G, m, n, res);
 	else if (algoritmo == "H-AGM")
-		H_AGM();
+		H_AGM(G, m, n, res);
 	else if (algoritmo == "BL")
 		BL();
 	else if (algoritmo == "BL-Tabu")
