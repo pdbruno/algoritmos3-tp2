@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
 	else if (algoritmo == "H-AGM")
 		H_AGM(G, m, n, res);
 	else if (algoritmo == "BL")
-		BL();
+		BL(G, m, n, res);
 	else if (algoritmo == "BL-Tabu")
 		BL_Tabu();
 
