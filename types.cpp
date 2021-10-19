@@ -2,9 +2,5 @@
 using namespace std;
 typedef int Vertice;
 typedef int Peso;
-struct Vecino {
-    Vertice dst;
-    Peso peso;
-    Vecino(Vertice d, Peso p) : dst(d), peso(p) {}
-};
-typedef vector<vector<Vecino>> Grafo;
+typedef vector<vector<int>> Grafo;
+#define MAX_INT 2147483647

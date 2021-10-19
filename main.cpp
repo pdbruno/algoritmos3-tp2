@@ -4,11 +4,11 @@
 #include <cstdlib>
 #include <chrono>
 #include <map>
+#include "types.cpp"
+#include "h-agm.cpp"
 #include "bl-tabu.cpp"
 #include "bl.cpp"
 #include "h-cg.cpp"
-#include "h-agm.cpp"
-#include "types.cpp"
 
 using namespace std;
 // Recibe por parámetro qué algoritmos utilizar para la ejecución separados por espacios.
@@ -22,6 +22,7 @@ int main(int argc, char **argv) {
 		{"BL-Tabu", "Algoritmo de busqueda local con Tabu Search"}
 	};
 
+
 	// Verificar que el algoritmo pedido exista.
 	if (argc < 2 || algoritmos_implementados.find(argv[1]) == algoritmos_implementados.end()) {
 		cerr << "Algoritmo no encontrado: " << argv[1] << endl;
@@ -31,21 +32,23 @@ int main(int argc, char **argv) {
 	}
 	string algoritmo = argv[1];
 
+
 	// Leemos el input.
 	int n, m;
 	cin >> n >> m;
-	Grafo G(n, vector<Vecino>());
+	Grafo G(n, vector<int>(n, MAX_INT));
+
 
 	for (int i = 0; i < m; i++) {
-		int v, w, peso;cin >> v >> w >> peso;
-		G[v].push_back(Vecino(w, peso));
-		G[w].push_back(Vecino(v, peso));
+		int v, w, peso;
+		cin >> v >> w >> peso;
+		G[v][w] = peso;
+		G[w][v] = peso;
 	}
 
-	vector<Vertice> res(m, -1);
+	vector<Vertice> res(n, -1);
 
 	auto start = chrono::steady_clock::now();
-
 	if (algoritmo == "H-CG")
 		H_CG(G, m, n, res);
 	else if (algoritmo == "H-AGM")
@@ -59,7 +62,22 @@ int main(int argc, char **argv) {
 	double total_time = chrono::duration<double, milli>(end - start).count();
 
 	// Imprimimos el tiempo de ejecución por stderr.
-	clog << total_time << endl;
+	clog << "Total time: " << total_time << endl;
+
+	int costo_total = 0;
+	for (int i = 0; i < n; i++) {
+
+		int inicio = res[i];
+		int fin = res[(i+1 == n) ? 0 : i+1];
+		costo_total += G[inicio][fin];
+	}
+
+	cout << n << " " << costo_total << endl;
+	for (Vertice &vertice : res) {
+		cout << vertice << " ";
+	}
+
+	cout << endl;
 
 	// Imprimimos el resultado por stdout.
 	//cout << optimum << endl;
