@@ -65,17 +65,18 @@ int main(int argc, char **argv) {
 	clog << "Total time: " << total_time << endl;
 
 	int costo_total = 0;
-	for (int i = 0; i < n; i++) {
-
-		int inicio = res[i];
-		int fin = res[(i+1 == n) ? 0 : i+1];
-		costo_total += G[inicio][fin];
-	}
+    for (size_t i = 0; i < n; i++) {
+        Vertice v = res[i];
+        Vertice w = res[i + 1];
+        costo_total += G[v][w];
+    }
 
 	cout << n << " " << costo_total << endl;
-	for (Vertice &vertice : res) {
-		cout << vertice << " ";
-	}
+
+    for (size_t i = 0; i < n; i++) {
+        Vertice v = res[i];
+		cout << v << " ";
+    }
 
 	cout << endl;
 

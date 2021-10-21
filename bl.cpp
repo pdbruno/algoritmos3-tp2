@@ -4,7 +4,7 @@ int Costo(Grafo &G, vector<Vertice> &ciclo) {
     int costo_total = 0;
     int n = G.size();
 
-    for (size_t i = 0; i < n - 1; i++) {
+    for (size_t i = 0; i < n; i++) {
         Vertice v = ciclo[i];
         Vertice w = ciclo[i + 1];
         costo_total += G[v][w];
