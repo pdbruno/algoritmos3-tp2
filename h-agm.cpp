@@ -85,5 +85,5 @@ void H_AGM(Grafo &G, int m, int n, vector<Vertice> &res) {
     Prim(G, n, AGM);
 
     DFS(AGM, n, res);
-    res[n - 1] = 0; //pq el recorrido termina en el primer vertice, que es el 0
+    res[n] = 0; //pq el recorrido termina en el primer vertice, que es el 0
 }

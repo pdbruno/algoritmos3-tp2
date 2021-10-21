@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 		G[w][v] = peso;
 	}
 
-	vector<Vertice> res(n, -1);
+	vector<Vertice> res(n + 1, -1);
 
 	auto start = chrono::steady_clock::now();
 	if (algoritmo == "H-CG")

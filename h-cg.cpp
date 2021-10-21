@@ -18,6 +18,7 @@ void H_CG(Grafo &G, int m, int n, vector<Vertice> &res) {
 	vector<bool> visitados(n, 0);
 	Vertice v = 0;
 	res[0] = v;
+	res[n] = v;
 
 	for (size_t i = 1; i < n; i++) {
 		Vertice w = get_min_cg(G[i], visitados);
