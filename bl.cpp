@@ -30,17 +30,27 @@ int CostoSwapeado(Grafo &G, int costo, int i, int j, vector<Vertice> &ciclo) {
     Vertice w = ciclo[j];
     Vertice post_w = ciclo[j + 1];
 
-    costo -= G[pre_v][v];
-    costo -= G[v][post_v];
+    if (i == j + 1) { //pre_v = w, post_w = v
+        costo -= G[pre_w][w];
+        costo -= G[v][post_v];
 
-    costo -= G[pre_w][w];
-    costo -= G[w][post_w];
+        costo += G[pre_w][v];
+        costo += G[w][post_v];
+    }
+    else {
+        costo -= G[pre_v][v];
+        costo -= G[v][post_v];
 
-    costo += G[pre_v][w];
-    costo += G[w][post_v];
+        costo -= G[pre_w][w];
+        costo -= G[w][post_w];
 
-    costo += G[pre_w][v];
-    costo += G[v][post_w];
+        costo += G[pre_v][w];
+        costo += G[w][post_v];
+
+        costo += G[pre_w][v];
+        costo += G[v][post_w];
+    }
+
 
     return costo;
 }

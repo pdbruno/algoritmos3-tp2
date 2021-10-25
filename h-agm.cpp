@@ -17,14 +17,10 @@ Vertice get_min(vector<int> &distancia, vector<bool> &visitados) {
 void Prim(Grafo &G, int n, Grafo &res) {
 
     vector<bool> visitado(n, false);
-    vector<int> distancia(n, MAX_INT);
-    vector<Vertice> padre(n, -1);
     Vertice s = 0;
-    for (int i = 0; i < n; i++) {
-        if (s == i) i++;
-        distancia[i] = G[s][i];
-        padre[i] = s;
-    }
+    vector<Vertice> padre(n, s);
+    vector<int> distancia = G[s];
+
     distancia[s] = 0;
     visitado[s] = true;
 
@@ -37,16 +33,16 @@ void Prim(Grafo &G, int n, Grafo &res) {
         for (int i = 0; i < n; i++) {
             if (v == i) i++;
             faltan_por_visitar = faltan_por_visitar || !visitado[i];
-            distancia[i] = G[v][i];
-            padre[i] = v;
+            if (!visitado[i] && distancia[i] > G[v][i]) {
+                distancia[i] = G[v][i];
+                padre[i] = v;
+            }
         }
     }
 
     for (size_t i = 1; i < n; i++) { //a partir del vector padre armo un AGM pero en formato grafo
-        Vertice actual = i;
-        Vertice Padre = padre[i];
-        Peso p = G[Padre][actual]; // :)
-        res[padre[i]][i] = p;
+        res[padre[i]][i] = distancia[i];
+        res[i][padre[i]] = distancia[i];
     }
 
 
@@ -63,9 +59,9 @@ void DFS(Grafo &T, int n, vector<Vertice> &res) {
     while (!lista.empty()) {
         Vertice i = lista.top();
         bool encontrado = false;
-        for (size_t j = 0; j < T[i].size() && !encontrado; i++) {
+        for (size_t j = 0; j < n && !encontrado; j++) {
             if (j == i) j++;
-            if (!visitado[j]) {
+            if (!visitado[j] && T[i][j] != MAX_INT) {
                 encontrado = true;
                 visitado[j] = true;
                 lista.push(j);
