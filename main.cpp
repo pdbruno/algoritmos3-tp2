@@ -4,11 +4,12 @@
 #include <cstdlib>
 #include <chrono>
 #include <map>
+#include "utils.cpp"
 #include "types.cpp"
 #include "h-agm.cpp"
+#include "h-cg.cpp"
 #include "bl-tabu.cpp"
 #include "bl.cpp"
-#include "h-cg.cpp"
 
 using namespace std;
 // Recibe por parámetro qué algoritmos utilizar para la ejecución separados por espacios.
@@ -56,7 +57,7 @@ int main(int argc, char **argv) {
 	else if (algoritmo == "BL")
 		BL(G, m, n, res);
 	else if (algoritmo == "BL-Tabu")
-		BL_Tabu();
+		BL_Tabu(G, m, n, res);
 
 	auto end = chrono::steady_clock::now();
 	double total_time = chrono::duration<double, milli>(end - start).count();

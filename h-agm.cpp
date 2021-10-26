@@ -60,7 +60,7 @@ void DFS(Grafo &T, int n, vector<Vertice> &res) {
         Vertice i = lista.top();
         bool encontrado = false;
         for (size_t j = 0; j < n && !encontrado; j++) {
-            if (j == i) j++;
+            if (j == i) continue;
             if (!visitado[j] && T[i][j] != MAX_INT) {
                 encontrado = true;
                 visitado[j] = true;
@@ -76,7 +76,6 @@ void DFS(Grafo &T, int n, vector<Vertice> &res) {
 }
 
 void H_AGM(Grafo &G, int m, int n, vector<Vertice> &res) {
-
     Grafo AGM(n, vector<int>(n, MAX_INT));
     Prim(G, n, AGM);
 
