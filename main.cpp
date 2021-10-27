@@ -10,6 +10,8 @@
 #include "h-cg.cpp"
 #include "bl-tabu.cpp"
 #include "bl.cpp"
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 // Recibe por parámetro qué algoritmos utilizar para la ejecución separados por espacios.
@@ -41,33 +43,46 @@ int main(int argc, char **argv) {
 	string algoritmo = argv[1];
 
 	// Verificar que sea memoria por aristas o ciclos.
-	if (argc >= 2) {
-		if (tipos_de_memoria.find(argv[2]) == tipos_de_memoria.end()) {
-			cerr << "Tipo de memoria no encontrado: " << argv[2] << endl;
+	if (argc >= 3) {
+		if (tipos_de_memoria.find(argv[3]) == tipos_de_memoria.end()) {
+			cerr << "Tipo de memoria no encontrado: " << argv[3] << endl;
 			cerr << "Los tipos existentes son: " << endl;
 			for (auto &mem_desc : tipos_de_memoria) cerr << "\t- " << mem_desc.first << ": " << mem_desc.second << endl;
 			return 0;
 		}
-		if (argc <= 3) { 
+		if (argc <= 4) { 
 			cerr << "Falta el 3to parametro de busqueda tabu, el tamanio de la memoria" << endl; return 0;
 		}
-		if (argc <= 4) { 
+		if (argc <= 5) { 
 			cerr << "Falta el 4to parametro de busqueda tabu, la cantidad de iteraciones" << endl; return 0;
 		}
-		tipo_de_memoria = argv[2];
-		max_iteraciones = atoi(argv[3]);
-		max_memoria = atoi(argv[4]);
+		tipo_de_memoria = argv[3];
+		max_iteraciones = atoi(argv[4]);
+		max_memoria = atoi(argv[5]);
+	}
+	string input = argv[2];
+
+	// lectura del input
+	ifstream input_file;
+	input_file.open(input);
+
+	if (!input_file.is_open()) {
+		printf("Archivo de entrada invalido.\n");
+		return 1;
 	}
 
 	// Leemos el input.
 	int n, m;
-	cin >> n >> m;
+	input_file >> n >> m;
 	Grafo G(n, vector<int>(n, MAX_INT));
 
+	string line;
+	getline(input_file, line, '\n');
 
-	for (int i = 0; i < m; i++) {
+	while (getline(input_file, line, '\n')) {
+		stringstream ss(line);
 		int v, w, peso;
-		cin >> v >> w >> peso;
+		ss >> v >> w >> peso;
 		G[v][w] = peso;
 		G[w][v] = peso;
 	}
@@ -91,18 +106,18 @@ int main(int argc, char **argv) {
 	clog << "Total time: " << total_time << endl;
 
 	int costo_total = 0;
-    for (size_t i = 0; i < n; i++) {
-        Vertice v = res[i];
-        Vertice w = res[i + 1];
-        costo_total += G[v][w];
-    }
+	for (size_t i = 0; i < n; i++) {
+		Vertice v = res[i];
+		Vertice w = res[i + 1];
+		costo_total += G[v][w];
+	}
 
 	cout << n << " " << costo_total << endl;
 
-    for (size_t i = 0; i < n; i++) {
-        Vertice v = res[i];
+	for (size_t i = 0; i < n; i++) {
+		Vertice v = res[i];
 		cout << v << " ";
-    }
+	}
 
 	cout << endl;
 
