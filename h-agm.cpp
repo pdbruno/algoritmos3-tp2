@@ -1,4 +1,5 @@
 #include <stack>
+#include <deque>
 using namespace std;
 
 
@@ -31,7 +32,7 @@ void Prim(Grafo &G, int n, Grafo &res) {
         Vertice v = get_min(distancia, visitado); /*nodo de menor distancia para agregar que no fue visitado aun */
         visitado[v] = true;
         for (int i = 0; i < n; i++) {
-            if (v == i) i++;
+            if (v == i) continue;
             faltan_por_visitar = faltan_por_visitar || !visitado[i];
             if (!visitado[i] && distancia[i] > G[v][i]) {
                 distancia[i] = G[v][i];
@@ -52,7 +53,7 @@ void DFS(Grafo &T, int n, vector<Vertice> &res) {
     int next = 0;
     Vertice r = 0;
     vector<bool> visitado(n, false);
-    stack<Vertice> lista;
+    stack<Vertice, deque<Vertice>> lista;
     lista.push(r);
     visitado[r] = true;
     res[next++] = r;
