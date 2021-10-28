@@ -1,64 +1,46 @@
-#include <deque> 
+#include "utils.h"
+#include "bl-tabu.h"
+#include "h-agm.h"
 using namespace std;
+
+#include <iterator>
+
+/* class VecindadStar
+{
+public:
+    struct Iterator 
+    {
+        using iterator_category = std::forward_iterator_tag;
+        using difference_type   = std::ptrdiff_t;
+        using value_type        = vector<Vertice>;
+        using pointer           = vector<Vertice>*;
+        using reference         = int&;
+
+        Iterator(pointer ptr) : m_ptr(ptr) {}
+
+        reference operator*() const { return *m_ptr; }
+        pointer operator->() { return m_ptr; }
+        Iterator& operator++() { m_ptr++; return *this; }  
+        Iterator operator++(int) { Iterator tmp = *this; ++(*this); return tmp; }
+        friend bool operator== (const Iterator& a, const Iterator& b) { return a.m_ptr == b.m_ptr; };
+        friend bool operator!= (const Iterator& a, const Iterator& b) { return a.m_ptr != b.m_ptr; };  
+
+    private:
+        pointer m_ptr;
+    };
+
+    VecindadStar()
+
+    Iterator begin() { return Iterator(&m_data[0]); }
+    Iterator end()   { return Iterator(&m_data[200]); }
+
+private:
+    int m_data[200];
+}; */
 
 // PARAMETROS QUE DEBERIAN LLEGAR A LA FUNCION
 int T;
 int MAX_ITERATIONS;
-
-int CostoTabu(Grafo &G, vector<Vertice> &ciclo) {
-    int costo_total = 0;
-    int n = G.size();
-
-    for (size_t i = 0; i < n; i++) {
-        Vertice v = ciclo[i];
-        Vertice w = ciclo[i + 1];
-        costo_total += G[v][w];
-    }
-
-    return costo_total;
-}
-
-void SwapTabu(vector<Vertice> &ciclo, int i, int j) {
-    Vertice aux = ciclo[i];
-    ciclo[i] = ciclo[j];
-    ciclo[j] = aux;
-}
-
-int CostoSwapeadoTabu(Grafo &G, int costo, int i, int j, vector<Vertice> &ciclo) {
-    int n = G.size();
-
-    Vertice pre_v = ciclo[i - 1];
-    Vertice v = ciclo[i];
-    Vertice post_v = ciclo[i + 1];
-
-    Vertice pre_w = ciclo[j - 1];
-    Vertice w = ciclo[j];
-    Vertice post_w = ciclo[j + 1];
-
-    if (i == j + 1) { //pre_v = w, post_w = v
-        costo -= G[pre_w][w];
-        costo -= G[v][post_v];
-
-        costo += G[pre_w][v];
-        costo += G[w][post_v];
-    }
-    else {
-        costo -= G[pre_v][v];
-        costo -= G[v][post_v];
-
-        costo -= G[pre_w][w];
-        costo -= G[w][post_w];
-
-        costo += G[pre_v][w];
-        costo += G[w][post_v];
-
-        costo += G[pre_w][v];
-        costo += G[v][post_w];
-    }
-
-
-    return costo;
-}
 
 bool EstaEnLaMemoria(vector<Vertice> &ciclo, deque<vector<Vertice>> &memoria) {
     for (int i = 0; i < memoria.size(); i++) {
@@ -92,11 +74,11 @@ int MejorCicloConMemoria(Grafo &G, vector<Vertice> &ciclo, deque<vector<Vertice>
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < i; j++) {
                 vector<Vertice> candidato(ciclo);
-                SwapTabu(candidato, i, j);
-                int costo_candidato = CostoTabu(G, candidato);
+                Swap(candidato, i, j);
+                int costo_candidato = Costo(G, candidato);
                 if (costo_candidato < costo_ciclo && !EstaEnLaMemoria(candidato, memoria)) {
                     hubo_mejora = true;
-                    SwapTabu(ciclo, i, j);
+                    Swap(ciclo, i, j);
                     costo_ciclo = costo_candidato;
                 }
             }
@@ -133,12 +115,12 @@ tuple<int,int,int> MejorCicloConMemoriaAristas(Grafo &G, vector<Vertice> &ciclo,
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < i; j++) {
                 vector<Vertice> candidato(ciclo);
-                SwapTabu(candidato, i, j);
-                int costo_candidato = CostoTabu(G, candidato);
+                Swap(candidato, i, j);
+                int costo_candidato = Costo(G, candidato);
                 vector<Vertice> vec = {i,j};
                 if (costo_candidato < costo_ciclo && !EstaEnLaMemoriaArista(vec, memoria)) {
                     hubo_mejora = true;
-                    SwapTabu(ciclo, i, j);
+                    Swap(ciclo, i, j);
                     i_mejor = i;
                     j_mejor = j;
                     costo_ciclo = costo_candidato;
@@ -160,7 +142,7 @@ void MemorizarArista(vector<Vertice> arista, deque<vector<Vertice>> &memoria) {
 void BL_Tabu_Ciclos(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
     H_AGM(G, m, n, ciclo);
     vector<Vertice> mejorCiclo = ciclo;
-    int mejorCosto = CostoTabu(G, ciclo);
+    int mejorCosto = Costo(G, ciclo);
 
     deque<vector<Vertice>> memoria;
 
@@ -182,7 +164,7 @@ void BL_Tabu_Ciclos(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
 void BL_Tabu_Aristas(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
     H_AGM(G, m, n, ciclo);
     vector<Vertice> mejorCiclo = ciclo;
-    int mejorCosto = CostoTabu(G, ciclo);
+    int mejorCosto = Costo(G, ciclo);
 
     deque<vector<Vertice>> memoria;
 

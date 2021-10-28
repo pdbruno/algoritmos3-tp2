@@ -1,26 +1,18 @@
-#include <iostream>
-#include <vector>
-#include <cstdio>
-#include <cstdlib>
-#include <chrono>
-#include <map>
-#include "utils.cpp"
-#include "types.cpp"
-#include "h-agm.cpp"
-#include "h-cg.cpp"
-#include "bl-tabu.cpp"
-#include "bl.cpp"
-#include <fstream>
-#include <sstream>
+#include "main.h"
 
 using namespace std;
 // Recibe por parámetro qué algoritmos utilizar para la ejecución separados por espacios.
 // Imprime por clog la información de ejecución de los algoritmos.
 // Imprime por cout el resultado de algun algoritmo ejecutado.
-int n, m;
-string tipo_de_memoria;
-int max_iteraciones, max_memoria;
+
+void print(char *printable) {
+	cout << printable << endl;
+}
+
 int main(int argc, char **argv) {
+	string tipo_de_memoria = "";
+	int max_iteraciones, max_memoria;
+
 	// Leemos el parametro que indica el algoritmo a ejecutar.
 	map<string, string> algoritmos_implementados = {
 		{"H-CG", "Heuristica constructiva golosa"}, {"H-AGM", "Heuristica basada en AGM", }, {"BL", "Algoritmo de busqueda local"},
@@ -43,17 +35,17 @@ int main(int argc, char **argv) {
 	string algoritmo = argv[1];
 
 	// Verificar que sea memoria por aristas o ciclos.
-	if (argc >= 3) {
+	if (argc > 3) {
 		if (tipos_de_memoria.find(argv[3]) == tipos_de_memoria.end()) {
 			cerr << "Tipo de memoria no encontrado: " << argv[3] << endl;
 			cerr << "Los tipos existentes son: " << endl;
 			for (auto &mem_desc : tipos_de_memoria) cerr << "\t- " << mem_desc.first << ": " << mem_desc.second << endl;
 			return 0;
 		}
-		if (argc <= 4) { 
+		if (argc <= 4) {
 			cerr << "Falta el 3to parametro de busqueda tabu, el tamanio de la memoria" << endl; return 0;
 		}
-		if (argc <= 5) { 
+		if (argc <= 5) {
 			cerr << "Falta el 4to parametro de busqueda tabu, la cantidad de iteraciones" << endl; return 0;
 		}
 		tipo_de_memoria = argv[3];
@@ -75,8 +67,7 @@ int main(int argc, char **argv) {
 	int n, m;
 	input_file >> n >> m;
 	Grafo G(n, vector<int>(n, MAX_INT));
-
-	string line;
+	string line = "";
 	getline(input_file, line, '\n');
 
 	while (getline(input_file, line, '\n')) {
