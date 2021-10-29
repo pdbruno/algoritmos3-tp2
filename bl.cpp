@@ -6,6 +6,7 @@ void BL(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
     H_AGM(G, m, n, ciclo);
 
     int costo_ciclo = Costo(G, ciclo);
+
     bool hubo_mejora = true;
 
     while (hubo_mejora) {

@@ -65,15 +65,30 @@ int main(int argc, char **argv) {
 
 	// Leemos el input.
 	int n, m;
-	input_file >> n >> m;
+	int primer_vertice, segundo_vertice, primer_peso;
+	bool primer_vertice_es_0 = false;
+	input_file >> n >> m >> primer_vertice >> segundo_vertice >> primer_peso;
+
+	if (primer_vertice == 0) {
+		primer_vertice_es_0 = true;
+	}
+
+	m = n*(n-1)/2;
 	Grafo G(n, vector<int>(n, MAX_INT));
 	string line = "";
 	getline(input_file, line, '\n');
+	
+	G[0][1] = primer_peso;
+	G[1][0] = primer_peso;
 
 	while (getline(input_file, line, '\n')) {
 		stringstream ss(line);
 		int v, w, peso;
 		ss >> v >> w >> peso;
+ 		if (!primer_vertice_es_0) {
+			v--;
+			w--;
+		} 
 		G[v][w] = peso;
 		G[w][v] = peso;
 	}
@@ -94,19 +109,15 @@ int main(int argc, char **argv) {
 	double total_time = chrono::duration<double, milli>(end - start).count();
 
 	// Imprimimos el tiempo de ejecución por stderr.
-	clog << "Total time: " << total_time << endl;
+	clog << total_time << endl;
 
-	int costo_total = 0;
-	for (size_t i = 0; i < n; i++) {
-		Vertice v = res[i];
-		Vertice w = res[i + 1];
-		costo_total += G[v][w];
-	}
+	int64_t costo_total = Costo(G, res);
 
 	cout << n << " " << costo_total << endl;
 
 	for (size_t i = 0; i < n; i++) {
 		Vertice v = res[i];
+		if (!primer_vertice_es_0) v++;
 		cout << v << " ";
 	}
 
