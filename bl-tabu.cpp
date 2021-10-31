@@ -184,7 +184,7 @@ void BL_Tabu_Aristas(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
     }
 }
 
-void BL_Tabu(Grafo &G, int m, int n, vector<Vertice> &ciclo, string tipo_de_memoria, int max_memoria, int max_iteraciones) {
+void BL_Tabu(Grafo &G, int m, int n, vector<Vertice> &ciclo, string tipo_de_memoria, int max_iteraciones, int max_memoria) {
     T = max_memoria;
     MAX_ITERATIONS = max_iteraciones;
     if (tipo_de_memoria == "aristas") {
