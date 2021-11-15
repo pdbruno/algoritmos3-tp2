@@ -13,8 +13,8 @@ make
 3. Instancias
 
 En el repo se encuentran dos tipos de instancias:
-    - Instancias de tsplib: Estas instancias son las parseadas desde tsplib las cuales tienen optimos conocidos. Se encuentran en `instancias/parseadas`
-    - Instancias nuestras: Estas son instancias aleatorias creadas usando la funcion ```randint``` de python. Tienen tamaños desde los 10 hasta los 100 vertices, con la particularidad de que generamos 100 instancias extra de tamaño 50. Se encuentran en `instancias/nuestras`
+- Instancias de tsplib: Estas instancias son las parseadas desde ```tsplib``` las cuales tienen optimos conocidos. Se encuentran en `instancias/parseadas`
+- Instancias nuestras: Estas son instancias aleatorias creadas usando la funcion ```randint``` de python. Tienen tamaños desde los 10 hasta los 100 vertices, con la particularidad de que generamos 100 instancias extra de tamaño 50. Se encuentran en `instancias/nuestras`
 
 4. Ejecucion de algoritmos
 
@@ -25,14 +25,14 @@ Los algoritmos existentes son:
         - H-AGM: Heuristica basada en AGM
         - H-CG: Heuristica constructiva golosa
 
-Ejemplo de comando para ejecutar
+Ejemplo de comando para ejecutar:
 ```
 ./main H-CG "instancias/parseadas/pcb442.txt"
 ```
 
 En el caso de querer correr Tabu search, el cual tiene mas parametros se envian en el siguiente orden: tipo de memoria, cantidad de iteraciones y tamaño de memoria. 
 
-Ejemplo de comando para ejecutar BL-Tabu:
+Ejemplo de comando para ejecutar ```BL-Tabu```:
 ```
 ./main BL-Tabu "instancias/parseadas/pcb442.txt" ciclos 1000 1000
 ```
