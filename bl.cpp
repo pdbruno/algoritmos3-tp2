@@ -3,7 +3,7 @@
 using namespace std;
 
 void BL(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
-    H_AGM(G, m, n, ciclo);
+    H_CG(G, m, n, ciclo);
 
     int costo_ciclo = Costo(G, ciclo);
 

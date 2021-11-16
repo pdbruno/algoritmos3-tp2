@@ -1,6 +1,6 @@
 #include "utils.h"
 #include "bl-tabu.h"
-#include "h-agm.h"
+#include "h-cg.h"
 using namespace std;
 
 #include <iterator>
@@ -107,7 +107,7 @@ void MemorizarArista(vector<Vertice> arista, deque<vector<Vertice>> &memoria) {
 }
 
 void BL_Tabu_Ciclos(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
-    H_AGM(G, m, n, ciclo);
+    H_CG(G, m, n, ciclo);
     vector<Vertice> mejorCiclo = ciclo;
     int mejorCosto = Costo(G, ciclo);
 
@@ -129,7 +129,7 @@ void BL_Tabu_Ciclos(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
 }
 
 void BL_Tabu_Aristas(Grafo &G, int m, int n, vector<Vertice> &ciclo) {
-    H_AGM(G, m, n, ciclo);
+    H_CG(G, m, n, ciclo);
     vector<Vertice> mejorCiclo = ciclo;
     int mejorCosto = Costo(G, ciclo);
 
