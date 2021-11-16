@@ -27,10 +27,10 @@ En el repo se encuentran dos tipos de instancias:
 
 Para correr algún algoritmo necesitamos el identificador del algoritmo en cuestión y una ruta hacia una instancia.
 Los algoritmos existentes son: 
-        - BL: Algoritmo de búsqueda local
-        - BL-Tabu: Algoritmo de búsqueda local con Tabu Search
-        - H-AGM: Heuristica basada en AGM
-        - H-CG: Heuristica constructiva golosa
+- BL: Algoritmo de búsqueda local
+- BL-Tabu: Algoritmo de búsqueda local con Tabu Search
+- H-AGM: Heuristica basada en AGM
+- H-CG: Heuristica constructiva golosa
 
 
 Ejemplo de comando para ejecutar:
