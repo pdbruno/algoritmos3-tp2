@@ -10,7 +10,6 @@ void print(char *printable) {
 }
 
 int main(int argc, char **argv) {
-	string tipo_de_memoria = "";
 	int max_iteraciones, max_memoria;
 
 	// Leemos el parametro que indica el algoritmo a ejecutar.
@@ -18,11 +17,6 @@ int main(int argc, char **argv) {
 		{"H-CG", "Heuristica constructiva golosa"}, {"H-AGM", "Heuristica basada en AGM", }, {"BL", "Algoritmo de busqueda local"},
 		{"BL-Tabu", "Algoritmo de busqueda local con Tabu Search"}
 	};
-
-	map<string, string> tipos_de_memoria = {
-		{"aristas", "Memoria por aristas"}, {"ciclos", "Memoria por ciclos", }
-	};
-
 
 
 	// Verificar que el algoritmo pedido exista.
@@ -36,21 +30,14 @@ int main(int argc, char **argv) {
 
 	// Verificar que sea memoria por aristas o ciclos.
 	if (argc > 3) {
-		if (tipos_de_memoria.find(argv[3]) == tipos_de_memoria.end()) {
-			cerr << "Tipo de memoria no encontrado: " << argv[3] << endl;
-			cerr << "Los tipos existentes son: " << endl;
-			for (auto &mem_desc : tipos_de_memoria) cerr << "\t- " << mem_desc.first << ": " << mem_desc.second << endl;
-			return 0;
+		if (argc <= 3) {
+			cerr << "Falta el 2do parametro de busqueda tabu, el tamanio de la memoria" << endl; return 0;
 		}
 		if (argc <= 4) {
-			cerr << "Falta el 3to parametro de busqueda tabu, el tamanio de la memoria" << endl; return 0;
+			cerr << "Falta el 3er parametro de busqueda tabu, la cantidad de iteraciones" << endl; return 0;
 		}
-		if (argc <= 5) {
-			cerr << "Falta el 4to parametro de busqueda tabu, la cantidad de iteraciones" << endl; return 0;
-		}
-		tipo_de_memoria = argv[3];
-		max_iteraciones = atoi(argv[4]);
-		max_memoria = atoi(argv[5]);
+		max_iteraciones = atoi(argv[3]);
+		max_memoria = atoi(argv[4]);
 	}
 	string input = argv[2];
 
@@ -103,7 +90,7 @@ int main(int argc, char **argv) {
 	else if (algoritmo == "BL")
 		BL(G, m, n, res);
 	else if (algoritmo == "BL-Tabu")
-		BL_Tabu(G, m, n, res, tipo_de_memoria, max_iteraciones, max_memoria);
+		BL_Tabu(G, m, n, res, max_iteraciones, max_memoria);
 
 	auto end = chrono::steady_clock::now();
 	double total_time = chrono::duration<double, milli>(end - start).count();
